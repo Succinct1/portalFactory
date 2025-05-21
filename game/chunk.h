@@ -3,22 +3,26 @@
 
 #include "gameObject.h"
 #include "common.h"
-using namespace std;
 
 class chunk : public gameObject{
 public:
 
     int seed;
-    b2Vec2 pos;
-    unordered_map<int, char> surfaceData; 
+    b2Vec2 pos; // Bottom Left corner in box2d space
+    long index; // Index in the chunk map
+    unordered_map<uint, char> surfaceData; 
     vector<gameObject*> objects;
+    
     chunk();
-    chunk(int seed, b2Vec2 pos);
+    chunk(int seed, b2Vec2 coord);
     ~chunk();
 
-private:
-    void getCoord(uint coord, int* x, int* y);
-    int getIndex(int x, int y);
+    static void getCoord(uint index, int* x, int* y);
+    static uint getIndex(int x, int y);
+
+    b2Vec2 getBoxCoord(int x, int y);
+    void getCoord(b2Vec2 coord, int* x, int* y);
+    int getHash(int x, int y);
 };
 
 #endif // CHUNK_H

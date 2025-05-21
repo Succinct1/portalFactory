@@ -47,6 +47,7 @@ void init(){
     portal.shapeDef.filter.maskBits = PORTAL_MASK;
     portal.shape = (ShapeUnion*)&portalPolygon; 
     definitions.push_back(portal);
+    
 }
 
 void display() {
