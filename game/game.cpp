@@ -149,7 +149,7 @@ void game::buildSurfaceChunk(bool left) {
     randomValue = distribution(generator);
     switch (chosenSlope) {
 
-        case LAKE:
+        case LAKE: {
             int count = 1;
             float length = LAKE_LENGTH + (distribution(generator) * LAKE_LENGTH_VARIANCE);
             float depth = LAKE_DEPTH + (distribution(generator) * LAKE_DEPTH_VARIANCE);
@@ -191,27 +191,31 @@ void game::buildSurfaceChunk(bool left) {
             }
             // addlines
 
-
-            
             break;
-
-        case PLATEU:
+        }
+        case PLATEU: {
             // Generate a plateu
             break;
-        case SLIDE:
+        }
+        case SLIDE: {
             // Generate a slide
             break;
-        case JAGGED:
+        }
+        case JAGGED: {
             // Generate a jagged slope
             break;
-        case STEEP:
+        }
+        case STEEP: {
             // Generate a steep slope
             break;
-        case CLIFF:
+        }
+        case CLIFF: {
             // Generate a cliff
             break;
-        default:
+        }
+        default: {
             break;
+        }
     }
 }
 
@@ -231,7 +235,7 @@ bool game::addChunk(uint index) {
     return true;
 }
 
-void game::getIds(b2Vec2 tl, b2Vec2 br, unordered_set<b2ShapeId>* collection) {
+void game::getIds(b2Vec2 tl, b2Vec2 br, unordered_set<b2ShapeId, b2ShapeIdHash, b2ShapeIdEqual>* collection) {
     b2AABB aabb;
     aabb.lowerBound = tl;
     aabb.upperBound = br;
@@ -240,7 +244,7 @@ void game::getIds(b2Vec2 tl, b2Vec2 br, unordered_set<b2ShapeId>* collection) {
 }
 
 bool game::getID(b2ShapeId shapeId, void* context) {
-    unordered_set<b2ShapeId>* collection = (unordered_set<b2ShapeId>*)context;
+    auto* collection = static_cast<unordered_set<b2ShapeId, b2ShapeIdHash, b2ShapeIdEqual>*>(context);
     collection->insert(shapeId);
     return true;
 }
@@ -276,6 +280,11 @@ int game::generateChunkSeed(b2Vec2 coord) {
     return hasher(worldSeed) ^ (hasher((int)coord.x) << 1) ^ (hasher((int)coord.y) << 2);
 }
 
+/// @brief Creates a line of ground squares from start to end. Assumed to be in empty space 
+/// @param start 
+/// @param dx 
+/// @param dy 
+/// @return 
 b2Vec2 game::addLine(b2Vec2 start, int dx, int dy) {
     b2Vec2 end = start + b2Vec2{(float)(dx * GROUND_SIZE), (float)(dy * GROUND_SIZE)};
     int sx, sy, ex, ey;
@@ -283,10 +292,11 @@ b2Vec2 game::addLine(b2Vec2 start, int dx, int dy) {
     ulong eIndex = getChunkIndex(end);
     chunk* chunk = chunks[sIndex];
     
-    // if (chunk == nullptr) {
-        //     addChunk(index);
-        //     chunk = chunks[index];
-        // }
+    if (chunk == nullptr) {
+        addChunk(sIndex);
+        chunk = chunks[sIndex];
+    }
+
     if (sIndex != eIndex){
 
     }

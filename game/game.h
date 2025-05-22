@@ -31,7 +31,7 @@ public:
     void buildSurfaceChunk(bool left);
     bool addChunk(uint index);
 
-    void getIds(b2Vec2 tl, b2Vec2 br, unordered_set<b2ShapeId>* collection);
+    void getIds(b2Vec2 tl, b2Vec2 br, unordered_set<b2ShapeId, b2ShapeIdHash, b2ShapeIdEqual>* collection);
     static bool getID(b2ShapeId shapeId, void* context);
 
     static b2Vec2 getChunkCoord(ulong index);

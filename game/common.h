@@ -139,7 +139,7 @@ enum chunkCategory
 {
     AIR = 'a',
     SURFACE = 's',
-    GROUND = 'g'
+    UNDERGROUND = 'g'
 };
 
 enum slopeTypes
@@ -171,19 +171,9 @@ enum objectCategory{
 };
 
 // Makes a U shape starting from the top left corner and going ccw
-b2Vec2 portalVerticies[8] = {
-    {-PORTAL_HALF_WIDTH,  PORTAL_HALF_HEIGHT},
-    {-PORTAL_HALF_WIDTH, -PORTAL_HALF_HEIGHT},
-    { PORTAL_HALF_WIDTH, -PORTAL_HALF_HEIGHT},
-    { PORTAL_HALF_WIDTH,  PORTAL_HALF_HEIGHT},
-    { PORTAL_HALF_WIDTH - PORTAL_WALL_WIDTH, PORTAL_HALF_HEIGHT},
-    { PORTAL_HALF_WIDTH - PORTAL_WALL_WIDTH, PORTAL_HALF_HEIGHT - PORTAL_DEPTH},
-    {-PORTAL_HALF_WIDTH + PORTAL_WALL_WIDTH, PORTAL_HALF_HEIGHT - PORTAL_DEPTH},
-    {-PORTAL_HALF_WIDTH + PORTAL_WALL_WIDTH, PORTAL_HALF_HEIGHT}
-};
-
-static b2Hull hull = b2ComputeHull(portalVerticies, 8);
-static b2Polygon portalPolygon = b2MakePolygon(&hull, 0);
+extern b2Vec2 portalVerticies[8];
+extern b2Hull hull;
+extern b2Polygon portalPolygon;
 
 struct b2ShapeIdHash {
     std::size_t operator()(const b2ShapeId& id) const {
@@ -199,5 +189,9 @@ struct b2ShapeIdEqual {
         return lhs.index1 == rhs.index1 && lhs.world0 == rhs.world0 && lhs.generation == rhs.generation;
     }
 };
+
+inline bool operator==(const b2ShapeId& lhs, const b2ShapeId& rhs) {
+    return lhs.index1 == rhs.index1 && lhs.world0 == rhs.world0 && lhs.generation == rhs.generation;
+}
 
 #endif // COMMON_H

@@ -1,0 +1,16 @@
+#include "common.h"
+
+// Portal geometry definitions (single definition)
+b2Vec2 portalVerticies[8] = {
+    {-PORTAL_HALF_WIDTH,  PORTAL_HALF_HEIGHT},
+    {-PORTAL_HALF_WIDTH, -PORTAL_HALF_HEIGHT},
+    { PORTAL_HALF_WIDTH, -PORTAL_HALF_HEIGHT},
+    { PORTAL_HALF_WIDTH,  PORTAL_HALF_HEIGHT},
+    { PORTAL_HALF_WIDTH - PORTAL_WALL_WIDTH, PORTAL_HALF_HEIGHT},
+    { PORTAL_HALF_WIDTH - PORTAL_WALL_WIDTH, PORTAL_HALF_HEIGHT - PORTAL_DEPTH},
+    {-PORTAL_HALF_WIDTH + PORTAL_WALL_WIDTH, PORTAL_HALF_HEIGHT - PORTAL_DEPTH},
+    {-PORTAL_HALF_WIDTH + PORTAL_WALL_WIDTH, PORTAL_HALF_HEIGHT}
+};
+
+b2Hull hull = b2ComputeHull(portalVerticies, 8);
+b2Polygon portalPolygon = b2MakePolygon(&hull, 0);
