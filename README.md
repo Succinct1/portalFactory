@@ -6,7 +6,7 @@ git clone --recurse-submodules https://github.com/Succinct1/portalFactory.git
 cd portalFactory
 ```
 
-## Build Box2D and PortalMechanics
+## Build Box2D and portalFactory
 
 ```bash
 # Build Box2D
